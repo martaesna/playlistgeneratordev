@@ -60,7 +60,7 @@ const Questions = ({ token }) => {
       ) : (
         <div className="result-container">
           <img src="/assets/images/spotify-logo.png" alt="Spotify Logo" />
-          <button className="generate-button" onClick={generatePlaylist}>Generate Playlist</button>
+          <button className="generate-button" onClick={generatePlaylist}>Generar Playlist</button>
           {playlistUrl && (
             <div className="playlist-link-container">
               <a href={playlistUrl} className="playlist-link-container" target="_blank" rel="noopener noreferrer">
