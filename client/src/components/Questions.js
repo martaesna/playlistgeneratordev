@@ -19,6 +19,7 @@ const questions = [
 const Questions = ({ token }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [playlistUrl, setPlaylistUrl] = useState(null); // New state variable for playlist URL
   const navigate = useNavigate();
 
   const handleAnswer = (answer) => {
@@ -30,9 +31,10 @@ const Questions = ({ token }) => {
 
   const generatePlaylist = async () => {
     try {
-      await axios.post('http://localhost:5000/api/playlist', { answers, token }, {
+      const response = await axios.post('http://localhost:5000/api/playlist', { answers, token }, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      setPlaylistUrl(response.data.playlist.external_urls.spotify); // Store playlist URL
     } catch (error) {
       console.error('Error generating playlist:', error);
     }
@@ -40,7 +42,7 @@ const Questions = ({ token }) => {
 
   return (
     <div className="questions-container">
-      {currentQuestion < (questions.length - 1) ? (
+      {currentQuestion < questions.length - 1 ? (
         <div className="content-container">
           <h1 className="question">{questions[currentQuestion].question}</h1>
           <div className="options-container">
@@ -53,7 +55,17 @@ const Questions = ({ token }) => {
           </div>
         </div>
       ) : (
-        <button className="generate-button" onClick={generatePlaylist}>Generate Playlist</button>
+        <div className="result-container">
+          <img src="/assets/images/spotify-logo.png" alt="Spotify Logo" />
+          <button className="generate-button" onClick={generatePlaylist}>Generate Playlist</button>
+          {playlistUrl && (
+            <div className="playlist-link-container">
+              <a href={playlistUrl} className="playlist-link-container" target="_blank" rel="noopener noreferrer">
+                Ir a la playlist
+              </a>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

@@ -13,7 +13,7 @@ const Login = ({ token }) => {
         const response = await axios.get('http://localhost:5000/api/client_id');
         const clientId = response.data.clientId;
         const redirectUri = 'http://localhost:3000/callback'; 
-        const scope = 'user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-library-read playlist-read-private playlist-modify-public user-top-read'
+        const scope = 'user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-library-read playlist-read-private playlist-modify-public playlist-modify-private user-top-read'
         const state = Math.random().toString(36).substring(2, 15); 
         window.localStorage.setItem('spotify_auth_state', state); 
         const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;

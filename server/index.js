@@ -54,9 +54,8 @@ app.post('/api/playlist', async (req, res) => {
 
   try {
     console.log('token: ' + token);
-    console.log('SCOPE at callback: ' + response.data.scope);
 
-    const topArtistsResponse = await axios.get('https://api.spotify.com/v1/1su99sy2tc3mtazqdb5w5che8/top/artists', {
+    /*const topArtistsResponse = await axios.get('https://api.spotify.com/v1/1su99sy2tc3mtazqdb5w5che8/top/artists', {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -64,18 +63,18 @@ app.post('/api/playlist', async (req, res) => {
         limit: 10
       }
     });
-   /* const topArtistsResponse = await axios.get('https://api.spotify.com/v1/1su99sy2tc3mtazqdb5w5che8/top/artists', {
+    const topArtistsResponse = await axios.get('https://api.spotify.com/v1/1su99sy2tc3mtazqdb5w5che8/top/artists', {
       headers: {
         Authorization: `Bearer ${token}`
       },
       params: {
         limit: 5 // Limit to retrieve (adjust as needed)
       }
-    });*/
+    });
 
     console.log('Top artists:', topArtistsResponse);
     const topArtistIds = topArtistsResponse.data.items.map(artist => artist.id);
-    console.log('join' + topArtistIds.join(','));
+    console.log('join' + topArtistIds.join(','));*/
 
 /*
     const topArtistIds = topArtistsResponse.data.items.map(artist => artist.id);
@@ -93,8 +92,8 @@ app.post('/api/playlist', async (req, res) => {
     const topTrackUris = topTracksResponse.data.items.map(track => track.uri);*/
 
     const playlistResponse = await axios.post('https://api.spotify.com/v1/users/1su99sy2tc3mtazqdb5w5che8/playlists', {
-      name: 'Your Custom Playlist',
-      description: 'Generated based on your answers',
+      name: 'Tu playlist personalizada',
+      description: 'Generada a través de tus respuestas.',
       public: true
     }, {
       headers: {
@@ -113,14 +112,26 @@ app.post('/api/playlist', async (req, res) => {
         /*seed_artists: topArtistIds.join(','),
         seed_genres: topGenres.join(','),
         seed_tracks: topTrackUris.join(','),*/
-        seed_artists: '4NHQUGzhtTLFvgF5SZesLK',
-        seed_tracks: '0c6xIDDpzE81m2q797ordA',
+        seed_artists: '3jU5LKRsimuyZjA0lSkdPp,3bvfu2KAve4lPHrhEFDZna',
+        seed_tracks: '2cO7VT0O6Q8IYeLNrh6oa9',
         limit: 24 
       }
     });
-
+    
+    
+    const obviousRecommendation = await axios.get('https://api.spotify.com/v1/tracks/2cO7VT0O6Q8IYeLNrh6oa9', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+        
+    
     const trackUris = recommendationsResponse.data.tracks.map(track => track.uri);
+    const obviousRecommendationUri = obviousRecommendation.data.uri;
 
+    const randomPosition = Math.floor(Math.random() * 24);
+    trackUris.splice(randomPosition, 0, obviousRecommendationUri);
+    
     await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       uris: trackUris
     }, {
@@ -132,8 +143,8 @@ app.post('/api/playlist', async (req, res) => {
 
     res.json({ message: 'Playlist created!', playlist: playlistResponse.data });
   } catch (error) {
-    console.error('Error creating playlist:', error.response.data);
-    if (error.response.status === 401) {
+    console.error('Error creating playlist:', error.response?.data || error.message);
+    if (error.response && error.response.status === 401) {
       res.status(401).json({ error: 'Unauthorized. Invalid access token.' });
     } else {
       res.status(500).send('Internal Server Error');
