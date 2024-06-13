@@ -31,8 +31,11 @@ const Questions = ({ token }) => {
 
   const generatePlaylist = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/playlist', { answers, token }, {
-        headers: { Authorization: `Bearer ${token}` }
+      console.log('token at questions: ' + token);
+      const spotifyToken = window.localStorage.getItem('token');
+      console.log('spotify token: ' + spotifyToken);
+      const response = await axios.post('http://localhost:5000/api/playlist', { answers, spotifyToken }, {
+        headers: { Authorization: `Bearer ${spotifyToken}` }
       });
       setPlaylistUrl(response.data.playlist.external_urls.spotify); // Store playlist URL
     } catch (error) {

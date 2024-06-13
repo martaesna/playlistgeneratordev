@@ -50,10 +50,10 @@ app.post('/callback', async (req, res) => {
 });
 
 app.post('/api/playlist', async (req, res) => {
-  const { answers, token } = req.body;
+  const { answers, spotifyToken } = req.body;
 
   try {
-    console.log('token: ' + token);
+    console.log('token: ' + spotifyToken);
 
     /*const topArtistsResponse = await axios.get('https://api.spotify.com/v1/1su99sy2tc3mtazqdb5w5che8/top/artists', {
       headers: {
@@ -97,7 +97,7 @@ app.post('/api/playlist', async (req, res) => {
       public: true
     }, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${spotifyToken}`,
         'Content-Type': 'application/json'
       }
     });
@@ -106,7 +106,7 @@ app.post('/api/playlist', async (req, res) => {
 
     const recommendationsResponse = await axios.get('https://api.spotify.com/v1/recommendations', {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${spotifyToken}`
       },
       params: {
         /*seed_artists: topArtistIds.join(','),
@@ -121,7 +121,7 @@ app.post('/api/playlist', async (req, res) => {
     
     const obviousRecommendation = await axios.get('https://api.spotify.com/v1/tracks/2cO7VT0O6Q8IYeLNrh6oa9', {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${spotifyToken}`
       }
     });
         
@@ -136,7 +136,7 @@ app.post('/api/playlist', async (req, res) => {
       uris: trackUris
     }, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${spotifyToken}`,
         'Content-Type': 'application/json'
       }
     });

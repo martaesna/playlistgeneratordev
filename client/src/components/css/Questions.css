@@ -35,7 +35,7 @@
 .options-container {
     display: flex;
     flex-direction: row; 
-    justify-content: space-around; 
+    justify-content: center; 
     width: 80%;
     margin-top: 2em;
 }
@@ -44,6 +44,8 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
     transition: background-color 0.3s, transform 0.2s;
 }
   
