@@ -73,16 +73,6 @@ The application should be running at `http://localhost:3000`.
 3. Answer the quiz questions.
 4. After completing the quiz, a personalized playlist will be generated in your Spotify account.
 
-## Contributions
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the project.
-2. Create a new branch (`git checkout -b feature/new-feature`).
-3. Make the necessary changes and commit (`git commit -m 'Add new feature'`).
-4. Push the changes (`git push origin feature/new-feature`).
-5. Open a Pull Request.
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
