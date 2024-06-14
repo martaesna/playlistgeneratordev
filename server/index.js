@@ -119,7 +119,7 @@ app.post('/api/playlist', async (req, res) => {
     });
     
     
-    const obviousRecommendation = await axios.get('https://api.spotify.com/v1/tracks/4xx7SYqeZDviVKlslE6Ud9', {
+    const obviousRecommendation = await axios.get('https://api.spotify.com/v1/tracks/2EP6MHyuILtKBJYxsjewms', {
       headers: {
         Authorization: `Bearer ${spotifyToken}`
       }
