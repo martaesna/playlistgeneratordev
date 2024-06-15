@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getClientId } from '../api';
 import './css/Login.css';
 
 const Login = ({ token }) => {
@@ -10,8 +10,8 @@ const Login = ({ token }) => {
   useEffect(() => {
     const fetchClientId = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/client_id`);
-        const clientId = response.data.clientId;
+        const clientId = await getClientId();
+        //const clientId = response.data.clientId;
         const redirectUri = 'http://localhost:3000/callback'; 
         const scope = 'user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-library-read playlist-read-private playlist-modify-public playlist-modify-private user-top-read'
         const state = Math.random().toString(36).substring(2, 15); 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { exchangeCodeForToken } from '../api';
 
 const Callback = () => {
   const navigate = useNavigate();
@@ -12,21 +12,23 @@ const Callback = () => {
     const state = urlParams.get('state');
     const storedState = window.localStorage.getItem('spotify_auth_state');
 
-    if (state !== storedState) {
-      navigate('/?error=state_mismatch');
-    } else {
-      window.localStorage.removeItem('spotify_auth_state');
-      axios.post('http://localhost:5000/callback', { code })
-        .then(response => {
-          const { access_token } = response.data;
-          window.localStorage.setItem('token', access_token);
+    const exchangeToken = async () => {
+      if (state !== storedState) {
+        navigate('/?error=state_mismatch');
+      } else {
+        window.localStorage.removeItem('spotify_auth_state');
+        try {
+          const accessToken = await exchangeCodeForToken(code);
+          window.localStorage.setItem('token', accessToken);
           navigate('/questions');
-        })
-        .catch(error => {
-          console.error('Error during callback:', error);
+        } catch (error) {
+          console.error('Error exchanging code for token:', error);
           navigate('/?error=invalid_token');
-        });
-    }
+        }
+      }
+    };
+
+    exchangeToken();
   }, [navigate]);
 
   return <div>Loading...</div>;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { createPlaylist } from '../api';
 import './css/Questions.css';
 
 const questions = [
@@ -16,11 +15,10 @@ const questions = [
     { question: '¿Te consideras más optimista o realista?', options: [{ text: 'Optimista', img: 'optimist.jpg' }, { text: 'Realista', img: 'realist.jpg' }] }
 ];
 
-const Questions = ({ token }) => {
+const Questions = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [playlistUrl, setPlaylistUrl] = useState(null); // New state variable for playlist URL
-  const navigate = useNavigate();
+  const [playlistUrl, setPlaylistUrl] = useState(null); 
 
   const handleAnswer = (answer) => {
     setAnswers([...answers, answer]);
@@ -31,13 +29,9 @@ const Questions = ({ token }) => {
 
   const generatePlaylist = async () => {
     try {
-      console.log('token at questions: ' + token);
       const spotifyToken = window.localStorage.getItem('token');
-      console.log('spotify token: ' + spotifyToken);
-      const response = await axios.post('http://localhost:5000/api/playlist', { answers, spotifyToken }, {
-        headers: { Authorization: `Bearer ${spotifyToken}` }
-      });
-      setPlaylistUrl(response.data.playlist.external_urls.spotify); // Store playlist URL
+      const playlistUrl = await createPlaylist(answers, spotifyToken);
+      setPlaylistUrl(playlistUrl); 
     } catch (error) {
       console.error('Error generating playlist:', error);
     }
@@ -51,7 +45,7 @@ const Questions = ({ token }) => {
           <div className="options-container">
             {questions[currentQuestion].options.map((option, index) => (
               <div key={index} className="option" onClick={() => handleAnswer(option.text)}>
-                <img src={`/assets/images/${option.img}`} alt={option.text} />
+                <img src={process.env.PUBLIC_URL + `/assets/images/${option.img}`} alt={option.text} />
                 <p>{option.text}</p>
               </div>
             ))}
@@ -59,7 +53,7 @@ const Questions = ({ token }) => {
         </div>
       ) : (
         <div className="result-container">
-          <img src="/assets/images/spotify-logo.png" alt="Spotify Logo" />
+          <img src={process.env.PUBLIC_URL + "/assets/images/spotify-logo.png"} alt="Spotify Logo" />
           <button className="generate-button" onClick={generatePlaylist}>Generar Playlist</button>
           {playlistUrl && (
             <div className="playlist-link-container">
