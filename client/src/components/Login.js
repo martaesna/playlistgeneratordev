@@ -10,7 +10,7 @@ const Login = ({ token }) => {
   useEffect(() => {
     const fetchClientId = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/client_id');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/client_id`);
         const clientId = response.data.clientId;
         const redirectUri = 'http://localhost:3000/callback'; 
         const scope = 'user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-library-read playlist-read-private playlist-modify-public playlist-modify-private user-top-read'
