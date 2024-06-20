@@ -37,6 +37,6 @@ router.get("/logged", async (req, res) => {
     .then(resp => resp.json())
     .then(data => {
         let query = querystring.stringify(data);
-        res.redirect(`http://localhost:3000/${query}`)
+        res.redirect(`https://martaesna.github.io/PlaylistGenerator/${query}`)
     });
 })

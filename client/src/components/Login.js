@@ -12,7 +12,7 @@ const Login = ({ token }) => {
       try {
         const clientId = await getClientId();
         //const clientId = response.data.clientId;
-        const redirectUri = 'http://localhost:3000/callback'; 
+        const redirectUri = 'https://martaesna.github.io/PlaylistGenerator/callback'; 
         const scope = 'user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-library-read playlist-read-private playlist-modify-public playlist-modify-private user-top-read'
         const state = Math.random().toString(36).substring(2, 15); 
         window.localStorage.setItem('spotify_auth_state', state); 
