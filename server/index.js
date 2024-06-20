@@ -19,7 +19,7 @@ app.post('/callback', async (req, res) => {
   console.log('code at server: ' + code);
   console.log('auth at server: Basic ' + (new Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')));
 
-  const redirectUri = 'http://localhost:3000/callback'; 
+  const redirectUri = 'https://martaesna.github.io/PlaylistGenerator/callback'; 
 
   try {
     const response = await axios.post(
