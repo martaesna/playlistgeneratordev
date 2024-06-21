@@ -19,7 +19,7 @@ app.post('/callback', async (req, res) => {
   console.log('code at server: ' + code);
   console.log('auth at server: Basic ' + (new Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')));
 
-  const redirectUri = 'https://main--spotifyplaylistgenerator.netlify.app/callback'; 
+  const redirectUri = 'https://main--yourplaylistgenerator.netlify.app/callback'; 
 
   try {
     const response = await axios.post(
